@@ -32,8 +32,7 @@ function createHeart() {
     if (heartCount >= MAX_HEARTS) return;
 
     const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.innerHTML = '❤️';
+    heart.className = 'heart';    heart.innerHTML = '💙';
     
     // Configurações aleatórias para o coração
     heart.style.left = Math.random() * 100 + 'vw';
@@ -54,8 +53,7 @@ function createHeart() {
 // Função para criar coração subindo na tela inicial
 function createRisingHeart() {
     const heart = document.createElement('div');
-    heart.className = 'rising-heart';
-    heart.innerHTML = '❤️';
+    heart.className = 'rising-heart';    heart.innerHTML = '💙';
     
     // Configurações aleatórias para o coração
     heart.style.left = (Math.random() * 80 + 10) + 'vw';
@@ -110,7 +108,7 @@ document.getElementById('main-button').addEventListener('click', function() {
         setTimeout(() => {
             const heart = document.createElement('div');
             heart.className = 'rising-heart';
-            heart.innerHTML = '❤️';
+            heart.innerHTML = '💙';
             heart.style.left = (Math.random() * 80 + 10) + 'vw';
             heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
             heart.style.animationDelay = (Math.random() * 0.5) + 's';

@@ -1,5 +1,5 @@
 // Data inicial do relacionamento
-const startDate = new Date('2024-08-13T19:16:00');
+const startDate = new Date('2025-01-12T00:00:00');
 
 // Configurações dos corações animados
 let heartCount = 0;
@@ -17,14 +17,8 @@ function updateTimer() {
     const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    // Montagem do texto do timer
-    let timerText = 'Nos conhecemos há: ';
-    if (years > 0) timerText += `${years} anos, `;
-    timerText += `${months} meses, ${days} dias, ${hours} horas, ${minutes} minutos e ${seconds} segundos`;
-
-    document.getElementById('timer').textContent = timerText;
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);    // Texto fixo "Te amo"
+    document.getElementById('timer').textContent = "Te amo";
 }
 
 // Função para criar coração animado
@@ -92,8 +86,29 @@ updateTimer();
 createRisingHeart();
 const initialHeartsInterval = setInterval(createRisingHeart, 600);
 
+// Configuração do áudio
+const backgroundMusic = document.getElementById('background-music');
+backgroundMusic.volume = 0.4; // Volume a 40%
+
+// Função para iniciar a música com fade in
+function startBackgroundMusic() {
+    backgroundMusic.volume = 0;
+    backgroundMusic.play();
+    
+    let vol = 0;
+    const interval = setInterval(() => {
+        if (vol < 0.4) {
+            vol += 0.02;
+            backgroundMusic.volume = vol;
+        } else {
+            clearInterval(interval);
+        }
+    }, 100);
+}
+
 // Evento de clique no botão principal
 document.getElementById('main-button').addEventListener('click', function() {
+    startBackgroundMusic();
     clearInterval(initialHeartsInterval);
     document.querySelector('.initial-screen').classList.add('fade-out');
     document.querySelector('.transition-screen').classList.add('visible');

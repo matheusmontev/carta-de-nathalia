@@ -1,0 +1,393 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos base */
+body {
+    background-color: #0a0a0a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Arial', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Estilos das telas */
+.initial-screen,
+.transition-screen,
+.main-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #0a0a0a;
+}
+
+.initial-screen { z-index: 30; }
+
+.transition-screen {
+    background: linear-gradient(135deg, #000000, #1a1a1a);
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+}
+
+.main-content {
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9);
+    overflow-y: auto;
+    padding: 20px;
+    justify-content: flex-start;
+}
+
+/* Estados das telas */
+.initial-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.95) translateY(-20px);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-screen.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-content.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Estilo do player Spotify */
+#spotify-player {
+    width: 100%;
+    max-width: 800px;
+    margin: 40px auto;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(135, 206, 235, 0.2);
+    min-height: 152px;
+}
+
+/* Estilo do botão principal */
+#main-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: 2px solid #87CEEB;
+    color: white;
+    padding: 20px 40px;
+    border-radius: 30px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(135, 206, 235, 0.3);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+#main-button:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 0 25px rgba(135, 206, 235, 0.5);
+    border-color: #fff;
+}
+
+/* Estilo do ícone de coração */
+.heart-icon {
+    color: red;
+    font-size: 24px;
+    font-family: 'Segoe UI Emoji', sans-serif;
+}
+
+/* Estilos do container de imagem */
+#image-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.single-image {
+    max-width: 100%;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    animation: imageGlow 3s ease-in-out infinite;
+    box-shadow: 
+        0 0 25px rgba(255, 0, 0, 0.3),
+        0 0 45px rgba(255, 105, 180, 0.2),
+        0 0 65px rgba(135, 206, 235, 0.1);
+    border: 2px solid rgba(255, 105, 180, 0.6);
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+/* Estilo do timer */
+#timer {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    margin: 30px 0;
+    font-weight: 300;
+}
+
+/* Estilos do container de mensagem */
+.message-container {
+    width: 100%;
+    max-width: 600px;
+    text-align: justify;
+    line-height: 1.8;
+    color: white;
+    margin: 20px auto;
+    padding: 0 max(20px, 6%);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    font-family: 'Galada', cursive;
+    font-size: clamp(0.9em, 2.5vw, 1.1em);
+    letter-spacing: 0.3px;
+}
+
+.message-container p {
+    margin-bottom: 1.5em;
+    line-height: 1.8;
+}
+
+.message-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animações de corações */
+.heart {
+    position: fixed;
+    font-family: 'Segoe UI Emoji', sans-serif;
+    animation: falling linear infinite;
+    opacity: 0;
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.rising-heart {
+    position: absolute;
+    bottom: -20px;
+    color: #ff6b6b;
+    font-size: 20px;
+    animation: riseUp 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+    filter: drop-shadow(0 0 8px rgba(255, 107, 107, 0.6));
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+    z-index: 5;
+}
+
+/* Estilos da tela de transição */
+.transition-content {
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.transition-content p {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.transition-content p:first-child {
+    font-size: 5em;
+    margin-bottom: 30px;
+    animation: pulseHeart 2s ease infinite, fadeInUp 1s ease forwards;
+}
+
+.transition-content p:last-child {
+    font-family: 'Galada', cursive;
+    font-size: clamp(1.5em, 4vw, 2.5em);
+    line-height: 1.4;
+    color: #87CEEB;
+    text-shadow: 0 0 10px rgba(135, 206, 235, 0.4);
+    animation: fadeInUp 1s ease 0.5s forwards;
+}
+
+/* Definições das animações */
+@keyframes imageGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 25px rgba(255, 0, 0, 0.3),
+            0 0 45px rgba(255, 105, 180, 0.2),
+            0 0 65px rgba(135, 206, 235, 0.1);
+        border-color: rgba(255, 105, 180, 0.6);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 
+            0 0 35px rgba(255, 0, 0, 0.4),
+            0 0 55px rgba(255, 105, 180, 0.3),
+            0 0 75px rgba(135, 206, 235, 0.2);
+        border-color: rgba(255, 105, 180, 0.8);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes falling {
+    0% {
+        transform: translateY(-100vh) translateX(0) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    10% { 
+        opacity: 0.8;
+        transform: translateY(-80vh) translateX(10px) rotate(45deg) scale(0.6);
+    }
+    50% {
+        transform: translateY(0vh) translateX(-20px) rotate(180deg) scale(0.8);
+    }
+    90% { 
+        opacity: 0.8;
+        transform: translateY(80vh) translateX(15px) rotate(315deg) scale(0.9);
+    }
+    100% {
+        transform: translateY(100vh) translateX(30px) rotate(360deg) scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes pulseHeart {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.3))
+                drop-shadow(0 0 25px rgba(255, 105, 180, 0.2));
+    }
+    25% {
+        transform: scale(1.1) rotate(3deg);
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.4))
+                drop-shadow(0 0 30px rgba(255, 105, 180, 0.3));
+    }
+    50% {
+        transform: scale(1.2) rotate(0deg);
+        filter: drop-shadow(0 0 25px rgba(255, 0, 0, 0.5))
+                drop-shadow(0 0 35px rgba(255, 105, 180, 0.4));
+    }
+    75% {
+        transform: scale(1.1) rotate(-3deg);
+        filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.4))
+                drop-shadow(0 0 30px rgba(255, 105, 180, 0.3));
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+        filter: blur(5px);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(15px) scale(0.97);
+        filter: blur(2px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes riseUp {
+    0% {
+        transform: translateY(0) scale(0.8) rotate(-10deg);
+        opacity: 0;
+        filter: drop-shadow(0 0 5px rgba(255, 105, 180, 0.3));
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(-20vh) translateX(-10px) scale(0.9) rotate(-5deg);
+        filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.4));
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-50vh) translateX(10px) scale(1) rotate(0deg);
+        filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.5));
+    }
+    90% {
+        opacity: 0.8;
+        transform: translateY(-80vh) translateX(-5px) scale(1.1) rotate(5deg);
+        filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.4));
+    }
+    100% {
+        transform: translateY(-100vh) translateX(0) scale(1.2) rotate(10deg);
+        opacity: 0;
+        filter: drop-shadow(0 0 5px rgba(255, 105, 180, 0.3));
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .main-content { padding: 15px; }
+    .message-container {
+        font-size: 0.9em;
+        padding: 0 max(20px, 5%);
+        margin: 25px auto;
+    }
+    #spotify-player {
+        padding: 0 20px;
+        margin: 30px auto;
+    }
+    .single-image { max-height: 65vh; }
+    #timer {
+        font-size: 16px;
+        padding: 0 10px;
+    }
+    #main-button {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content { padding: 10px; }
+    .message-container {
+        font-size: 0.85em;
+        line-height: 1.6;
+        padding: 0 max(15px, 4%);
+        margin: 20px auto;
+    }
+    #timer {
+        font-size: 14px;
+        padding: 0 15px;
+        margin: 20px 0;
+    }
+    .single-image { max-height: 60vh; }
+}
+
+@media (min-width: 1200px) {
+    .message-container { max-width: 800px; }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+    .single-image { max-height: 55vh; }
+    .message-container { margin: 15px auto; }
+    #timer { margin: 15px 0; }
+}
